@@ -25,7 +25,7 @@ func (app *Config) WriteLog(w http.ResponseWriter, r *http.Request) {
 
 	response := jsonResponse{
 		Error:   false,
-		Message: "logged",
+		Message: "Logged",
 	}
 
 	app.writeJSON(w, http.StatusAccepted, response)

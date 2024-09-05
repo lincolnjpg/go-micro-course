@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"net/http"
 )
 
@@ -62,14 +61,12 @@ func (app *Config) authenticate(w http.ResponseWriter, inputPayload AuthPayload)
 	}
 
 	client := &http.Client{}
-	fmt.Println("LOG-ANTES")
 	response, err := client.Do(request)
 
 	if err != nil {
 		app.errorJSON(w, err)
 		return
 	}
-	fmt.Println("LOG-DEPOIS")
 	defer response.Body.Close()
 
 	if response.StatusCode == http.StatusUnauthorized {
@@ -103,7 +100,7 @@ func (app *Config) authenticate(w http.ResponseWriter, inputPayload AuthPayload)
 
 func (app *Config) logItem(w http.ResponseWriter, entry LogPayload) {
 	jsonData, _ := json.MarshalIndent(entry, "", "\t")
-	logServiceUrl := "http://logger-service/log"
+	logServiceUrl := "http://logger-service:8003/log"
 
 	request, err := http.NewRequest("POST", logServiceUrl, bytes.NewBuffer(jsonData))
 	if err != nil {
@@ -113,7 +110,6 @@ func (app *Config) logItem(w http.ResponseWriter, entry LogPayload) {
 
 	request.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
-
 	response, err := client.Do(request)
 	if err != nil {
 		app.errorJSON(w, err)

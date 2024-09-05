@@ -50,7 +50,7 @@
             }
         }
 
-        const header = new Headers();
+        const headers= new Headers();
         headers.append("Content-Type", "application/json");
 
         const body = {
@@ -58,10 +58,12 @@
             body: JSON.stringify(payload),
             headers,
         }
+        console.log("ANTES FETCH")
 
         fetch("http:\/\/localhost:8000/handle", body)
         .then((response) => response.json())
         .then((data) => {
+            console.log("NO ERROR")
             sent.innerHTML = JSON.stringify(payload, undefined, 4)
             received.innerHTML = JSON.stringify(data, undefined, 4)
 
@@ -73,6 +75,7 @@
             }
         })
         .catch((error) => {
+            console.log("ERROR LOG: ", error)
             output.innerHTML += "<br><br>Error: " + error;
         })
     })
@@ -82,7 +85,7 @@
             action: "auth",
             auth: {
                 email: "admin@example.com",
-                password: "verysecret!"
+                password: "verysecret"
             }
         }
 
