@@ -33,6 +33,11 @@ func (app *Config) Authenticate(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = app.logRequest("authentication", fmt.Sprintf("%s logged in", user.Email))
+	if err != nil {
+		fmt.Println("AUTH ERR:", err)
+		app.errorJSON(w, err)
+		return
+	}
 
 	payload := jsonResponse{
 		Error:   false,
@@ -53,7 +58,7 @@ func (app *Config) logRequest(name, data string) error {
 	entry.Data = data
 
 	jsonData, _ := json.MarshalIndent(entry, "", "\t")
-	logServiceUrl := "http://logger-service/log"
+	logServiceUrl := "http://logger-service:8003/log"
 
 	request, err := http.NewRequest("POST", logServiceUrl, bytes.NewBuffer(jsonData))
 	if err != nil {
