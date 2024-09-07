@@ -162,7 +162,7 @@ func (app *Config) sendEmail(w http.ResponseWriter, message MailPayload) {
 	defer response.Body.Close()
 
 	if response.StatusCode != http.StatusAccepted {
-		app.errorJSON(w, errors.New("error calling mailer service. status code:"+string(response.StatusCode)))
+		app.errorJSON(w, errors.New("error calling mailer service"))
 		return
 	}
 
