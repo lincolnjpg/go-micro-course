@@ -1,39 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbitmq
+  name: broker-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: rabbitmq
+      app: broker-service
   template:
     metadata:
       labels:
-        app: rabbitmq
+        app: broker-service
     spec:
       containers:
-        - name: rabbitmq
-          image: 'rabbitmq:3.9-alpine'
+        - name: broker-service
+          image: 'lincolnjunior12/broker-service:1.0.0'
           resources:
             requests:
-              memory: "128Mi"
+              memory: "64Mi"
               cpu: "250m"
             limits:
-              memory: "256Mi"
+              memory: "128Mi"
               cpu: "500m"
           ports:
-            - containerPort: 5672
+            - containerPort: 8000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq
+  name: broker-service
 spec:
   selector:
-    app: rabbitmq
+    app: broker-service
   ports:
     - protocol: TCP
       name: main-port
-      port: 5672
-      targetPort: 5672
+      port: 8000
+      targetPort: 8000
