@@ -1,4 +1,4 @@
-FRONT_END_BINARY=frontApp
+FRONT_END_BINARY=frontEndApp
 BROKER_BINARY=brokerApp
 AUTH_BINARY=authApp
 MAILER_BINARY=mailerApp
@@ -23,6 +23,12 @@ up_build: build_broker build_auth build_logger build_mailer build_listener
 down:
 	@echo "Stopping docker compose..."
 	docker compose down
+	@echo "Done!"
+
+## build_front_end: builds the front end binary as a linux executable
+build_front_end:
+	@echo "Building fron end binary..."
+	cd ../front-end && env GOOS=linux CGO_ENABLED=0 go build -o ${FRONT_END_BINARY} ./cmd/web
 	@echo "Done!"
 
 ## build_broker: builds the broker binary as a linux executable
@@ -55,14 +61,8 @@ build_auth:
 	cd ../authentication-service && env GOOS=linux CGO_ENABLED=0 go build -o ${AUTH_BINARY} ./cmd/api
 	@echo "Done!"
 
-## build_front: builds the front end binary
-build_front:
-	@echo "Building front end binary..."
-	cd ../front-end && env CGO_ENABLED=0 go build -o ${FRONT_END_BINARY} ./cmd/web
-	@echo "Done!"
-
 ## start: starts the front end
-start: build_front
+start: build_front_end
 	@echo "Starting front end"
 	cd ../front-end && ./${FRONT_END_BINARY} &
 
