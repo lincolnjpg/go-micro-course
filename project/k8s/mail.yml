@@ -24,7 +24,7 @@ spec:
               cpu: "500m"
           env:
             - name: MAIL_DOMAIN
-              value: "logs"
+              value: ""
             - name: MAIL_HOST
               value: "localhost"
             - name: MAIL_PORT
