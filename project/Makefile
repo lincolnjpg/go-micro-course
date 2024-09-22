@@ -64,6 +64,7 @@ build_auth:
 ## start: starts the front end
 start: build_front_end
 	@echo "Starting front end"
+	export BROKER_URL="http://localhost:8000"
 	cd ../front-end && ./${FRONT_END_BINARY} &
 
 ## stop: stop the front end
